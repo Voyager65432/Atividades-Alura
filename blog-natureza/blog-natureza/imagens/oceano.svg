@@ -1,0 +1,25 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 600 400" preserveAspectRatio="xMidYMid slice">
+  <defs>
+    <linearGradient id="ceu" x1="0" y1="0" x2="0" y2="1">
+      <stop offset="0" stop-color="#F4A58A"/>
+      <stop offset="1" stop-color="#FDE4B8"/>
+    </linearGradient>
+    <linearGradient id="mar" x1="0" y1="0" x2="0" y2="1">
+      <stop offset="0" stop-color="#2C7DA0"/>
+      <stop offset="1" stop-color="#103F57"/>
+    </linearGradient>
+  </defs>
+  <rect width="600" height="400" fill="url(#ceu)"/>
+  <circle cx="300" cy="235" r="90" fill="#FFB347" opacity="0.3"/>
+  <circle cx="300" cy="235" r="60" fill="#FFB347"/>
+  <rect y="235" width="600" height="165" fill="url(#mar)"/>
+  <rect x="270" y="238" width="60" height="6" rx="3" fill="#FFD9A0" opacity="0.7"/>
+  <rect x="280" y="252" width="40" height="5" rx="2.5" fill="#FFD9A0" opacity="0.5"/>
+  <path d="M0 280 q30 -12 60 0 t60 0 t60 0 t60 0 t60 0 t60 0 t60 0 t60 0 t60 0 t60 0" fill="none" stroke="#7FC1DC" stroke-width="3" opacity="0.7"/>
+  <path d="M0 320 q40 -16 80 0 t80 0 t80 0 t80 0 t80 0 t80 0 t80 0 t80 0" fill="none" stroke="#7FC1DC" stroke-width="3" opacity="0.5"/>
+  <path d="M0 365 q50 -18 100 0 t100 0 t100 0 t100 0 t100 0 t100 0" fill="none" stroke="#7FC1DC" stroke-width="3" opacity="0.4"/>
+  <path d="M120 262 H210 L198 280 H132Z" fill="#5B3A29"/>
+  <path d="M165 258 V204 L202 254Z" fill="#FFFFFF"/>
+  <path d="M160 258 V214 L130 254Z" fill="#F7E3C4"/>
+  <path d="M165 204 V196" stroke="#5B3A29" stroke-width="2"/>
+</svg>

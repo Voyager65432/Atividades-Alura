@@ -1,0 +1,652 @@
+<!DOCTYPE html>
+<html lang="pt-BR">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <meta name="description" content="Blog sobre natureza: biomas, ciclo da água, curiosidades e dicas para cuidar do planeta.">
+    <title>Verde Vivo | Blog sobre natureza</title>
+
+    <style>
+        :root {
+            --verde: #1F4D3A;
+            --musgo: #2F6B4F;
+            --folha: #6FA77F;
+            --claro: #E4EFE5;
+            --areia: #F5F1E6;
+            --terra: #B8643A;
+            --texto: #1E2A24;
+            --suave: #55655B;
+            --borda: #CBD9CC;
+            --fonte-titulo: Georgia, "Times New Roman", serif;
+            --fonte-texto: "Segoe UI", Roboto, Helvetica, Arial, sans-serif;
+        }
+
+        * { box-sizing: border-box; }
+        html { scroll-behavior: smooth; }
+
+        body {
+            margin: 0;
+            font-family: var(--fonte-texto);
+            font-size: 1.05rem;
+            line-height: 1.7;
+            color: var(--texto);
+            background-color: var(--areia);
+        }
+
+        h1, h2, h3 { font-family: var(--fonte-titulo); line-height: 1.25; color: var(--verde); }
+        a { color: var(--musgo); }
+
+        a:focus-visible, button:focus-visible, input:focus-visible {
+            outline: 3px solid var(--terra);
+            outline-offset: 3px;
+        }
+
+        /* Imagens: a aula usa width e height no seletor img (aqui 80px para a logo) */
+        img {
+            width: 80px;
+            height: 80px;
+        }
+
+        /* ---------- Cabeçalho (max-width, margin, padding, border) ---------- */
+        header {
+            background-color: var(--verde);
+            color: #FFFFFF;
+            text-align: center;
+            max-width: 960px;
+            margin: 0 auto;
+            padding: 28px 24px 0;
+            border-bottom: 6px solid var(--folha);
+
+            /* Borda de teste da aula (descomente para ver os espaços):
+               border: 5px solid #cf1010; */
+        }
+
+        header img { display: block; margin: 0 auto; }
+        header h1 { margin: 10px 0 4px; font-size: 2.5rem; color: #FFFFFF; }
+        header p { margin: 0 0 22px; color: #CFE5D3; }
+
+        nav {
+            display: flex;
+            justify-content: center;
+            flex-wrap: wrap;
+            gap: 6px 22px;
+            padding: 14px 0;
+            border-top: 1px solid rgba(255, 255, 255, 0.25);
+        }
+
+        nav a {
+            color: #FFFFFF;
+            text-decoration: none;
+            padding: 4px 2px;
+            border-bottom: 3px solid transparent;
+            transition: border-color 0.2s;
+        }
+
+        nav a:hover { border-bottom-color: var(--folha); }
+
+        /* ---------- Conteúdo ---------- */
+        main {
+            max-width: 960px;
+            margin: 0 auto;
+            padding: 24px;
+            background-color: #FFFFFF;
+        }
+
+        section { margin-bottom: 52px; }
+
+        section > h2 {
+            font-size: 1.7rem;
+            margin-bottom: 12px;
+            padding-bottom: 8px;
+            border-bottom: 3px solid var(--claro);
+        }
+
+        .hero {
+            display: block;
+            width: 100%;
+            height: 280px;
+            object-fit: cover;
+            border-radius: 14px;
+            border: 3px solid var(--claro);
+            margin-bottom: 24px;
+        }
+
+        .etiqueta {
+            display: inline-block;
+            background-color: var(--claro);
+            color: var(--verde);
+            font-size: 0.8rem;
+            font-weight: 700;
+            padding: 2px 12px;
+            border-radius: 999px;
+        }
+
+        /* Artigos */
+        .artigos { display: grid; grid-template-columns: repeat(auto-fit, minmax(250px, 1fr)); gap: 18px; }
+
+        article {
+            border: 2px solid var(--borda);
+            border-radius: 12px;
+            overflow: hidden;
+            background-color: #FFFFFF;
+        }
+
+        article img { display: block; width: 100%; height: 170px; object-fit: cover; }
+        article .texto { padding: 16px 18px 20px; }
+        article h3 { margin: 10px 0 6px; font-size: 1.15rem; }
+        article p { margin: 0; color: var(--suave); font-size: 0.97rem; }
+        article time { display: block; margin-top: 10px; font-size: 0.85rem; color: var(--suave); }
+
+        /* Biomas */
+        .biomas { display: grid; grid-template-columns: repeat(auto-fit, minmax(260px, 1fr)); gap: 14px; }
+
+        .bioma {
+            padding: 16px 18px;
+            border: 2px solid var(--borda);
+            border-top: 8px solid var(--cor);
+            border-radius: 10px;
+        }
+
+        .bioma h3 { margin: 0 0 4px; font-size: 1.1rem; }
+        .bioma p { margin: 0; font-size: 0.95rem; color: var(--suave); }
+
+        /* Ciclo da água */
+        .ciclo { list-style: none; padding: 0; margin: 0; display: grid; grid-template-columns: repeat(auto-fit, minmax(190px, 1fr)); gap: 14px; counter-reset: etapa; }
+
+        .ciclo li {
+            counter-increment: etapa;
+            padding: 18px;
+            background-color: var(--claro);
+            border-radius: 12px;
+        }
+
+        .ciclo li::before {
+            content: counter(etapa);
+            display: block;
+            width: 34px;
+            height: 34px;
+            line-height: 34px;
+            margin-bottom: 8px;
+            text-align: center;
+            font-weight: 700;
+            color: #FFFFFF;
+            background-color: var(--musgo);
+            border-radius: 50%;
+        }
+
+        .ciclo strong { display: block; color: var(--verde); font-family: var(--fonte-titulo); font-size: 1.1rem; }
+        .ciclo span { font-size: 0.93rem; color: var(--suave); }
+
+        /* Você sabia */
+        .sabia {
+            padding: 28px;
+            text-align: center;
+            color: #FFFFFF;
+            background-color: var(--musgo);
+            border-radius: 14px;
+            border-left: 8px solid var(--terra);
+        }
+
+        .sabia h2 { color: #FFFFFF; border: none; margin-top: 0; }
+        .sabia p { font-size: 1.15rem; min-height: 3.4em; margin: 0 0 14px; }
+
+        .sabia button, .newsletter button {
+            padding: 10px 22px;
+            font: inherit;
+            font-weight: 700;
+            color: #FFFFFF;
+            background-color: var(--terra);
+            border: none;
+            border-radius: 8px;
+            cursor: pointer;
+        }
+
+        .sabia button:hover, .newsletter button:hover { background-color: #9C4F29; }
+
+        /* Dicas */
+        .dicas { padding: 0; list-style: none; counter-reset: dica; }
+
+        .dicas li {
+            counter-increment: dica;
+            position: relative;
+            padding: 10px 0 10px 52px;
+            border-bottom: 1px solid var(--borda);
+        }
+
+        .dicas li:last-child { border-bottom: none; }
+
+        .dicas li::before {
+            content: counter(dica);
+            position: absolute;
+            left: 0;
+            top: 10px;
+            width: 36px;
+            height: 36px;
+            line-height: 36px;
+            text-align: center;
+            font-weight: 700;
+            color: #FFFFFF;
+            background-color: var(--folha);
+            border-radius: 50%;
+        }
+
+        blockquote {
+            margin: 0;
+            padding: 16px 24px;
+            border-left: 6px solid var(--folha);
+            background-color: var(--claro);
+            font-family: var(--fonte-titulo);
+            font-size: 1.2rem;
+            color: var(--verde);
+        }
+
+        /* Newsletter */
+        .newsletter { padding: 28px; text-align: center; background-color: var(--claro); border-radius: 14px; }
+        .newsletter h2 { border: none; margin-top: 0; }
+        .newsletter form { display: flex; flex-wrap: wrap; justify-content: center; gap: 8px; }
+        .newsletter input { flex: 1 1 220px; max-width: 340px; padding: 10px 14px; font: inherit; border: 2px solid var(--borda); border-radius: 8px; }
+
+        /* Reações: o jardim de likes */
+        .placar { margin: 0 0 16px; font-size: 0.95rem; color: var(--suave); }
+        .placar strong { color: var(--musgo); }
+
+        .reacoes {
+            margin-top: 14px;
+            padding-top: 14px;
+            border-top: 1px dashed var(--borda);
+        }
+
+        .jardim { display: flex; align-items: center; gap: 10px; margin-bottom: 12px; }
+        .jardim svg { flex-shrink: 0; width: 56px; height: 56px; transition: transform 0.4s; }
+        .jardim svg.pulo { transform: scale(1.18) rotate(-4deg); }
+        .jardim .estagio { display: block; font-weight: 700; color: var(--verde); font-family: var(--fonte-titulo); line-height: 1.2; }
+        .jardim .dica { display: block; font-size: 0.82rem; color: var(--suave); line-height: 1.3; }
+
+        .botoes-reacao { display: flex; gap: 8px; }
+
+        .botoes-reacao button {
+            flex: 1;
+            display: inline-flex;
+            align-items: center;
+            justify-content: center;
+            gap: 6px;
+            padding: 8px 10px;
+            font: inherit;
+            font-size: 0.9rem;
+            font-weight: 700;
+            color: var(--texto);
+            background-color: #FFFFFF;
+            border: 2px solid var(--borda);
+            border-radius: 999px;
+            cursor: pointer;
+            transition: background-color 0.2s, border-color 0.2s;
+        }
+
+        .botoes-reacao button svg { width: 18px; height: 18px; }
+        .botoes-reacao button:hover { border-color: var(--folha); }
+
+        .botoes-reacao .btn-like[aria-pressed="true"] {
+            color: #FFFFFF;
+            background-color: var(--musgo);
+            border-color: var(--musgo);
+        }
+
+        .botoes-reacao .btn-dislike[aria-pressed="true"] {
+            color: #FFFFFF;
+            background-color: var(--terra);
+            border-color: var(--terra);
+        }
+
+        /* ---------- Rodapé ---------- */
+        footer {
+            max-width: 960px;
+            margin: 0 auto;
+            padding: 24px;
+            text-align: center;
+            font-size: 0.9rem;
+            color: #FFFFFF;
+            background-color: var(--verde);
+        }
+
+        footer p { margin: 4px 0; }
+        footer a { color: #BFE3C4; }
+
+        @media (max-width: 600px) {
+            header h1 { font-size: 2rem; }
+            .hero { height: 200px; }
+        }
+
+        @media (prefers-reduced-motion: reduce) {
+            html { scroll-behavior: auto; }
+            nav a { transition: none; }
+            .jardim svg, .botoes-reacao button { transition: none; }
+        }
+    </style>
+</head>
+<body>
+
+    <header>
+        <img src="imagens/logo.svg" alt="Logotipo do Verde Vivo: uma folha verde e uma folha clara sobre um caule, dentro de um círculo verde.">
+        <h1>Verde Vivo</h1>
+        <p>Um blog para conhecer e cuidar da natureza</p>
+
+        <nav aria-label="Menu principal">
+            <a href="#sobre">Sobre</a>
+            <a href="#artigos">Artigos</a>
+            <a href="#biomas">Biomas</a>
+            <a href="#agua">Ciclo da água</a>
+            <a href="#dicas">Dicas</a>
+        </nav>
+    </header>
+
+    <main>
+
+        <section id="sobre">
+            <img class="hero" src="imagens/paisagem.svg" alt="Paisagem ilustrada com montanhas de picos nevados, colinas verdes cobertas de pinheiros, um sol dourado e pássaros no céu.">
+            <h2>Bem-vindo ao Verde Vivo</h2>
+            <p>
+                Este blog nasceu da vontade de entender melhor o mundo natural. Aqui você
+                encontra textos sobre florestas, oceanos e montanhas, uma explicação dos
+                principais biomas do planeta, o caminho que a água percorre e dicas simples
+                para cuidar do meio ambiente no dia a dia.
+            </p>
+        </section>
+
+        <section id="artigos">
+            <h2>Últimos artigos</h2>
+            <p class="placar" id="placar"></p>
+
+            <div class="artigos">
+                <article>
+                    <img src="imagens/floresta.svg" alt="Ilustração de uma floresta com árvores altas de copas verdes, raios de luz entre os troncos e pequenas flores amarelas no chão.">
+                    <div class="texto">
+                        <span class="etiqueta">Florestas</span>
+                        <h3>Por que as florestas são tão importantes</h3>
+                        <p>Elas abrigam uma enorme variedade de vida, ajudam a regular o clima e protegem o solo e os rios.</p>
+                        <time datetime="2026-11-12">12 de novembro de 2026</time>
+                    </div>
+                </article>
+
+                <article>
+                    <img src="imagens/oceano.svg" alt="Ilustração de um pôr do sol sobre o oceano, com um veleiro de velas claras e ondas azuis.">
+                    <div class="texto">
+                        <span class="etiqueta">Oceanos</span>
+                        <h3>O oceano: a maior casa da vida na Terra</h3>
+                        <p>Da superfície ao fundo escuro, os mares guardam ecossistemas incríveis e ajudam a controlar o clima.</p>
+                        <time datetime="2026-11-08">8 de novembro de 2026</time>
+                    </div>
+                </article>
+
+                <article>
+                    <img src="imagens/montanha.svg" alt="Ilustração de montanhas com picos nevados refletidas em um lago azul, cercado por pinheiros.">
+                    <div class="texto">
+                        <span class="etiqueta">Montanhas</span>
+                        <h3>Montanhas: caixas-d'água do planeta</h3>
+                        <p>A neve e as chuvas das montanhas alimentam rios que abastecem cidades e plantações.</p>
+                        <time datetime="2026-11-03">3 de novembro de 2026</time>
+                    </div>
+                </article>
+            </div>
+        </section>
+
+        <section id="biomas">
+            <h2>Conheça os biomas</h2>
+            <p>Bioma é um grande conjunto de ecossistemas com clima, solo, plantas e animais parecidos.</p>
+
+            <div class="biomas">
+                <div class="bioma" style="--cor: #2F6B4F">
+                    <h3>Floresta tropical</h3>
+                    <p>Muita chuva, calor o ano todo e uma biodiversidade enorme.</p>
+                </div>
+                <div class="bioma" style="--cor: #D9A441">
+                    <h3>Savana</h3>
+                    <p>Gramíneas e árvores espaçadas, com uma estação seca e outra chuvosa.</p>
+                </div>
+                <div class="bioma" style="--cor: #C98F56">
+                    <h3>Deserto</h3>
+                    <p>Pouquíssima chuva e grandes diferenças de temperatura entre o dia e a noite.</p>
+                </div>
+                <div class="bioma" style="--cor: #7FB4CF">
+                    <h3>Tundra</h3>
+                    <p>Frio intenso, solo congelado e vegetação rasteira.</p>
+                </div>
+                <div class="bioma" style="--cor: #6FA77F">
+                    <h3>Floresta temperada</h3>
+                    <p>Quatro estações bem marcadas e árvores que perdem as folhas no outono.</p>
+                </div>
+                <div class="bioma" style="--cor: #2C7DA0">
+                    <h3>Oceano</h3>
+                    <p>Cobre a maior parte da superfície do planeta e abriga uma vida muito diversa.</p>
+                </div>
+            </div>
+        </section>
+
+        <section id="agua">
+            <h2>O ciclo da água</h2>
+            <p>A água do planeta nunca para: ela muda de forma e de lugar em um ciclo contínuo.</p>
+
+            <ol class="ciclo">
+                <li><strong>Evaporação</strong><span>O calor do sol transforma a água de rios, lagos e mares em vapor.</span></li>
+                <li><strong>Condensação</strong><span>O vapor sobe, esfria e forma as gotículas das nuvens.</span></li>
+                <li><strong>Precipitação</strong><span>As gotas ficam pesadas e caem como chuva, granizo ou neve.</span></li>
+                <li><strong>Infiltração e escoamento</strong><span>A água entra no solo ou corre pelos rios até voltar ao mar.</span></li>
+            </ol>
+        </section>
+
+        <section>
+            <div class="sabia">
+                <h2>Você sabia?</h2>
+                <p id="fato" aria-live="polite">Cerca de 71% da superfície da Terra é coberta por água, e a maior parte dela é salgada.</p>
+                <button type="button" id="botao-fato">Mostrar outro fato</button>
+            </div>
+        </section>
+
+        <section id="dicas">
+            <h2>5 dicas para cuidar da natureza</h2>
+
+            <ol class="dicas">
+                <li>Economize água: feche a torneira ao escovar os dentes e tome banhos mais curtos.</li>
+                <li>Separe o lixo reciclável e descarte cada material no lugar certo.</li>
+                <li>Plante uma árvore, uma horta ou até um vasinho de ervas em casa.</li>
+                <li>Prefira sacolas e garrafas reutilizáveis a itens descartáveis.</li>
+                <li>Respeite a vida selvagem: não alimente nem retire animais e plantas dos seus lugares.</li>
+            </ol>
+        </section>
+
+        <section>
+            <blockquote>
+                A natureza não precisa de nós, mas nós precisamos dela. Cuidar do planeta é cuidar de nós mesmos.
+            </blockquote>
+        </section>
+
+        <section id="newsletter" class="newsletter">
+            <h2>Receba novidades do Verde Vivo</h2>
+            <p>Um e-mail por semana com curiosidades e dicas sobre a natureza.</p>
+            <form onsubmit="event.preventDefault(); alert('Obrigado por se inscrever!');">
+                <input type="email" placeholder="seuemail@exemplo.com" aria-label="Seu e-mail" required>
+                <button type="submit">Quero receber</button>
+            </form>
+        </section>
+
+    </main>
+
+    <footer>
+        <p>&copy; 2026 Verde Vivo. Feito com HTML e CSS durante as minhas aulas do Alura.</p>
+        <p><a href="#sobre">Voltar ao topo</a></p>
+    </footer>
+
+    <script>
+        const fatos = [
+            "Cerca de 71% da superfície da Terra é coberta por água, e a maior parte dela é salgada.",
+            "As árvores absorvem gás carbônico e liberam oxigênio durante a fotossíntese.",
+            "As abelhas ajudam a polinizar muitas plantas, inclusive várias que viram alimento para nós.",
+            "Em climas com estações bem definidas, o tronco de uma árvore ganha um anel de crescimento a cada ano.",
+            "Os fungos formam redes subterrâneas que se conectam às raízes de muitas plantas.",
+            "Os oceanos abrigam a maior parte do espaço habitável do planeta."
+        ];
+
+        const texto = document.getElementById("fato");
+        const botao = document.getElementById("botao-fato");
+        let indice = 0;
+
+        botao.addEventListener("click", function () {
+            let novo = indice;
+            while (novo === indice) {
+                novo = Math.floor(Math.random() * fatos.length);
+            }
+            indice = novo;
+            texto.textContent = fatos[indice];
+        });
+
+        /* ---------- Sistema de like e deslike: o jardim dos leitores ----------
+           Cada artigo tem uma plantinha. Cada "Gostei" faz ela crescer
+           (semente, broto, muda, árvore). Cada "Não gostei" faz ela murchar. */
+        const CHAVE = "verde-vivo-reacoes";
+        let dados = {};
+
+        try {
+            dados = JSON.parse(localStorage.getItem(CHAVE)) || {};
+        } catch (erro) {
+            dados = {};
+        }
+
+        function salvar() {
+            try {
+                localStorage.setItem(CHAVE, JSON.stringify(dados));
+            } catch (erro) {
+                /* sem armazenamento: as reações valem só enquanto a página estiver aberta */
+            }
+        }
+
+        const solo = '<ellipse cx="30" cy="54" rx="20" ry="5" fill="#7A5638"/>';
+
+        function planta(saldo) {
+            if (saldo <= -2) {
+                return solo +
+                    '<path d="M30 52 C30 40 36 34 44 37" fill="none" stroke="#8B6B4A" stroke-width="3" stroke-linecap="round"/>' +
+                    '<path d="M44 37 c5 2 6 8 2 12 c-5 -2 -6 -8 -2 -12z" fill="#B58B5A"/>';
+            }
+            if (saldo <= 0) {
+                return solo + '<ellipse cx="30" cy="49" rx="5" ry="3.5" fill="#5B3A29"/>';
+            }
+            if (saldo <= 2) {
+                return solo +
+                    '<path d="M30 52 V36" stroke="#2F6B4F" stroke-width="3" stroke-linecap="round"/>' +
+                    '<path d="M30 40 C20 40 16 33 16 27 C25 27 30 32 30 40Z" fill="#6FA77F"/>' +
+                    '<path d="M30 36 C30 28 35 23 43 23 C43 31 38 36 30 36Z" fill="#8CC48F"/>';
+            }
+            if (saldo <= 5) {
+                return solo +
+                    '<path d="M30 52 V22" stroke="#2F6B4F" stroke-width="3.5" stroke-linecap="round"/>' +
+                    '<path d="M30 44 C19 44 14 37 14 30 C24 30 30 35 30 44Z" fill="#6FA77F"/>' +
+                    '<path d="M30 38 C30 30 36 25 45 25 C45 33 39 38 30 38Z" fill="#8CC48F"/>' +
+                    '<path d="M30 30 C21 30 18 24 18 18 C26 18 30 23 30 30Z" fill="#8CC48F"/>' +
+                    '<path d="M30 24 C30 17 34 12 41 12 C41 19 37 24 30 24Z" fill="#6FA77F"/>';
+            }
+            return solo +
+                '<rect x="27" y="30" width="6" height="24" rx="2" fill="#5B3A29"/>' +
+                '<circle cx="30" cy="22" r="15" fill="#2F6B4F"/>' +
+                '<circle cx="20" cy="28" r="9" fill="#3E8A55"/>' +
+                '<circle cx="41" cy="27" r="9" fill="#3E8A55"/>' +
+                '<circle cx="35" cy="15" r="3" fill="#E8C547"/>' +
+                '<circle cx="23" cy="22" r="2.5" fill="#E8C547"/>';
+        }
+
+        function estagio(saldo) {
+            if (saldo <= -2) { return ["Murchando", "Esta plantinha precisa de cuidado."]; }
+            if (saldo <= 0)  { return ["Semente", "Reaja para ela começar a crescer."]; }
+            if (saldo <= 2)  { return ["Broto", "Já nasceu! Continue regando com likes."]; }
+            if (saldo <= 5)  { return ["Muda", "Está crescendo forte."]; }
+            return ["Árvore frondosa", "Os leitores adoraram este artigo!"];
+        }
+
+        const iconeLike = '<svg viewBox="0 0 24 24" aria-hidden="true"><path d="M12 21 V11" stroke="currentColor" stroke-width="2" stroke-linecap="round" fill="none"/><path d="M12 14 C6 14 3 10 3 5 C9 5 12 8 12 14Z" fill="currentColor"/><path d="M12 11 C12 6 15 3 21 3 C21 8 18 11 12 11Z" fill="currentColor" opacity="0.7"/></svg>';
+        const iconeDislike = '<svg viewBox="0 0 24 24" aria-hidden="true"><path d="M5 4 C13 3 20 9 19 20 C11 21 4 15 5 4Z" fill="currentColor"/><path d="M5 4 C9 9 14 14 19 20" stroke="#FFFFFF" stroke-width="1.6" fill="none" opacity="0.8"/></svg>';
+
+        const artigos = document.querySelectorAll("#artigos article");
+        const placar = document.getElementById("placar");
+
+        function atualizarPlacar() {
+            let likes = 0;
+            let dislikes = 0;
+            Object.keys(dados).forEach(function (id) {
+                likes += dados[id].likes;
+                dislikes += dados[id].dislikes;
+            });
+            placar.innerHTML = 'Jardim dos leitores: <strong>' + likes + '</strong> folhas verdes e <strong>' + dislikes + '</strong> folhas secas.';
+        }
+
+        function montar(artigo, i) {
+            const id = "artigo-" + i;
+            if (!dados[id]) {
+                dados[id] = { likes: 0, dislikes: 0, voto: "" };
+            }
+
+            const caixa = document.createElement("div");
+            caixa.className = "reacoes";
+            caixa.innerHTML =
+                '<div class="jardim">' +
+                    '<svg viewBox="0 0 60 60" role="img" aria-label="Plantinha do artigo"></svg>' +
+                    '<div><span class="estagio"></span><span class="dica"></span></div>' +
+                '</div>' +
+                '<div class="botoes-reacao">' +
+                    '<button type="button" class="btn-like" aria-pressed="false"></button>' +
+                    '<button type="button" class="btn-dislike" aria-pressed="false"></button>' +
+                '</div>';
+            artigo.querySelector(".texto").appendChild(caixa);
+
+            const figura = caixa.querySelector("svg");
+            const nome = caixa.querySelector(".estagio");
+            const dica = caixa.querySelector(".dica");
+            const btnLike = caixa.querySelector(".btn-like");
+            const btnDislike = caixa.querySelector(".btn-dislike");
+
+            function desenhar(animar) {
+                const d = dados[id];
+                const saldo = d.likes - d.dislikes;
+                const info = estagio(saldo);
+
+                figura.innerHTML = planta(saldo);
+                figura.setAttribute("aria-label", "Plantinha do artigo: " + info[0]);
+                nome.textContent = info[0];
+                dica.textContent = info[1];
+
+                btnLike.innerHTML = iconeLike + "Gostei (" + d.likes + ")";
+                btnDislike.innerHTML = iconeDislike + "Não gostei (" + d.dislikes + ")";
+                btnLike.setAttribute("aria-pressed", d.voto === "like");
+                btnDislike.setAttribute("aria-pressed", d.voto === "dislike");
+
+                if (animar) {
+                    figura.classList.add("pulo");
+                    setTimeout(function () { figura.classList.remove("pulo"); }, 350);
+                }
+                atualizarPlacar();
+                salvar();
+            }
+
+            function reagir(tipo) {
+                const d = dados[id];
+                const campo = tipo === "like" ? "likes" : "dislikes";
+                const outro = tipo === "like" ? "dislikes" : "likes";
+
+                if (d.voto === tipo) {
+                    d[campo]--;
+                    d.voto = "";
+                } else {
+                    if (d.voto !== "") { d[outro]--; }
+                    d[campo]++;
+                    d.voto = tipo;
+                }
+                desenhar(true);
+            }
+
+            btnLike.addEventListener("click", function () { reagir("like"); });
+            btnDislike.addEventListener("click", function () { reagir("dislike"); });
+            desenhar(false);
+        }
+
+        artigos.forEach(montar);
+    </script>
+
+</body>
+</html>
