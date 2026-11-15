@@ -1,0 +1,720 @@
+<!DOCTYPE html>
+<html lang="pt-BR">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <meta name="description" content="Blog de fã sobre Pokémon: tabela de tipos, calculadora de vantagem, curiosidades, glossário e quiz.">
+    <title>Pokédiário | Blog de fã de Pokémon</title>
+
+    <style>
+        :root {
+            --vermelho: #D7263D;
+            --escuro: #1D2433;
+            --amarelo: #FFCB05;
+            --azul: #3B5BA9;
+            --fundo: #F1F3F8;
+            --branco: #FFFFFF;
+            --texto: #1F2430;
+            --suave: #55607A;
+            --borda: #D5DAE6;
+            --fonte-titulo: "Trebuchet MS", "Segoe UI", Arial, sans-serif;
+            --fonte-texto: "Segoe UI", Roboto, Helvetica, Arial, sans-serif;
+        }
+
+        * { box-sizing: border-box; }
+        html { scroll-behavior: smooth; }
+
+        body {
+            margin: 0;
+            font-family: var(--fonte-texto);
+            font-size: 1.05rem;
+            line-height: 1.7;
+            color: var(--texto);
+            background-color: var(--fundo);
+        }
+
+        h1, h2, h3 { font-family: var(--fonte-titulo); line-height: 1.25; color: var(--escuro); }
+        a { color: var(--azul); }
+
+        a:focus-visible, button:focus-visible, input:focus-visible, select:focus-visible {
+            outline: 3px solid var(--amarelo);
+            outline-offset: 3px;
+        }
+
+        /* ---------- Cabeçalho (max-width, margin, padding, border da aula) ---------- */
+        header {
+            background-color: var(--vermelho);
+            color: var(--branco);
+            text-align: center;
+            max-width: 960px;
+            margin: 0 auto;
+            padding: 32px 24px 0;
+            border-bottom: 8px solid var(--escuro);
+        }
+
+        header .logo { display: block; margin: 0 auto; }
+        header h1 { margin: 12px 0 4px; font-size: 2.6rem; letter-spacing: 1px; color: var(--branco); }
+        header p { margin: 0 0 24px; color: #FFE3E7; }
+
+        nav {
+            display: flex;
+            justify-content: center;
+            flex-wrap: wrap;
+            gap: 6px 20px;
+            padding: 14px 0;
+            border-top: 1px solid rgba(255, 255, 255, 0.35);
+        }
+
+        nav a {
+            color: var(--branco);
+            font-weight: 600;
+            font-size: 0.95rem;
+            text-decoration: none;
+            padding: 4px 2px;
+            border-bottom: 3px solid transparent;
+            transition: border-color 0.2s;
+        }
+
+        nav a:hover { border-bottom-color: var(--amarelo); }
+
+        /* ---------- Conteúdo ---------- */
+        main {
+            max-width: 960px;
+            margin: 0 auto;
+            padding: 24px;
+            background-color: var(--branco);
+        }
+
+        section { margin-bottom: 56px; }
+
+        section > h2 {
+            font-size: 1.7rem;
+            margin-bottom: 12px;
+            padding-bottom: 8px;
+            border-bottom: 4px solid var(--amarelo);
+        }
+
+        .destaque {
+            background-color: var(--escuro);
+            color: var(--branco);
+            padding: 28px;
+            border-radius: 12px;
+            border-left: 8px solid var(--amarelo);
+        }
+
+        .destaque h3 { margin-top: 0; font-size: 1.5rem; color: var(--branco); }
+        .destaque a { color: var(--amarelo); font-weight: 600; }
+
+        .etiqueta {
+            display: inline-block;
+            background-color: var(--amarelo);
+            color: var(--escuro);
+            font-size: 0.8rem;
+            font-weight: 700;
+            padding: 2px 12px;
+            border-radius: 999px;
+        }
+
+        .numeros {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(150px, 1fr));
+            gap: 12px;
+            margin-top: 20px;
+        }
+
+        .numeros div {
+            text-align: center;
+            padding: 14px 8px;
+            border: 2px solid var(--borda);
+            border-radius: 10px;
+            background-color: var(--fundo);
+        }
+
+        .numeros strong {
+            display: block;
+            font-family: var(--fonte-titulo);
+            font-size: 1.8rem;
+            color: var(--vermelho);
+        }
+
+        .numeros span { font-size: 0.9rem; color: var(--suave); }
+
+        /* Artigos */
+        .artigos { display: grid; grid-template-columns: repeat(auto-fit, minmax(240px, 1fr)); gap: 16px; }
+
+        article {
+            padding: 20px;
+            border: 2px solid var(--borda);
+            border-top: 6px solid var(--vermelho);
+            border-radius: 10px;
+        }
+
+        article:nth-child(2) { border-top-color: var(--azul); }
+        article:nth-child(3) { border-top-color: var(--amarelo); }
+        article h3 { margin: 10px 0 6px; font-size: 1.15rem; }
+        article p { margin: 0; color: var(--suave); font-size: 0.98rem; }
+        article time { display: block; margin-top: 12px; font-size: 0.85rem; color: var(--suave); }
+        article .etiqueta { background-color: var(--fundo); border: 1px solid var(--borda); }
+
+        /* Chips de tipos */
+        .chip {
+            display: inline-block;
+            background-color: var(--c);
+            color: #14181F;
+            font-weight: 700;
+            font-size: 0.85rem;
+            line-height: 1.4;
+            padding: 3px 12px;
+            border-radius: 999px;
+            border: 2px solid rgba(0, 0, 0, 0.15);
+            margin: 2px 4px 2px 0;
+        }
+
+        .vazio { color: var(--suave); font-size: 0.9rem; font-style: italic; }
+
+        /* Cartões de tipo */
+        .grade-tipos { display: grid; grid-template-columns: repeat(auto-fill, minmax(280px, 1fr)); gap: 16px; margin-top: 16px; }
+
+        .tipo-card {
+            border: 2px solid var(--borda);
+            border-radius: 12px;
+            overflow: hidden;
+            background-color: var(--branco);
+        }
+
+        .tipo-card h3 {
+            margin: 0;
+            padding: 10px 16px;
+            font-size: 1.2rem;
+            color: #14181F;
+            background-color: var(--c);
+        }
+
+        .tipo-card .corpo { padding: 12px 16px 16px; }
+        .tipo-card h4 { margin: 12px 0 4px; font-size: 0.85rem; text-transform: uppercase; letter-spacing: 0.5px; color: var(--suave); }
+        .tipo-card h4:first-child { margin-top: 0; }
+
+        /* Calculadora */
+        .calculadora {
+            padding: 24px;
+            border: 3px solid var(--escuro);
+            border-radius: 14px;
+            background-color: var(--fundo);
+        }
+
+        .campos { display: grid; grid-template-columns: repeat(auto-fit, minmax(180px, 1fr)); gap: 16px; }
+        .campos label { display: block; font-weight: 700; font-size: 0.9rem; margin-bottom: 4px; }
+
+        .campos select {
+            width: 100%;
+            padding: 10px;
+            font: inherit;
+            border: 2px solid var(--borda);
+            border-radius: 8px;
+            background-color: var(--branco);
+        }
+
+        .resultado {
+            margin-top: 20px;
+            padding: 20px;
+            text-align: center;
+            border-radius: 10px;
+            background-color: var(--branco);
+            border: 3px solid var(--borda);
+        }
+
+        .resultado .mult { font-family: var(--fonte-titulo); font-size: 2.6rem; font-weight: 700; display: block; line-height: 1.1; }
+        .resultado.forte { border-color: #2E9E4F; }
+        .resultado.forte .mult { color: #1F7A3B; }
+        .resultado.fraco { border-color: #D98A00; }
+        .resultado.fraco .mult { color: #9A5F00; }
+        .resultado.zero { border-color: var(--vermelho); }
+        .resultado.zero .mult { color: var(--vermelho); }
+
+        /* Linha do tempo */
+        .linha-tempo { list-style: none; padding: 0; margin: 16px 0 0; border-left: 4px solid var(--amarelo); }
+        .linha-tempo li { position: relative; padding: 0 0 20px 24px; }
+
+        .linha-tempo li::before {
+            content: "";
+            position: absolute;
+            left: -12px;
+            top: 6px;
+            width: 20px;
+            height: 20px;
+            border-radius: 50%;
+            background-color: var(--vermelho);
+            border: 4px solid var(--branco);
+            box-shadow: 0 0 0 2px var(--vermelho);
+        }
+
+        .linha-tempo strong { font-family: var(--fonte-titulo); font-size: 1.2rem; color: var(--vermelho); }
+
+        /* Glossário */
+        .glossario { display: grid; grid-template-columns: repeat(auto-fit, minmax(260px, 1fr)); gap: 12px; margin: 0; }
+        .glossario div { padding: 14px 16px; border: 2px solid var(--borda); border-radius: 10px; }
+        .glossario dt { font-weight: 700; color: var(--vermelho); font-family: var(--fonte-titulo); }
+        .glossario dd { margin: 4px 0 0; font-size: 0.95rem; color: var(--suave); }
+
+        /* Dicas */
+        .dicas { padding-left: 0; list-style: none; counter-reset: dica; }
+
+        .dicas li { counter-increment: dica; position: relative; padding: 10px 0 10px 52px; border-bottom: 1px solid var(--borda); }
+        .dicas li:last-child { border-bottom: none; }
+
+        .dicas li::before {
+            content: counter(dica);
+            position: absolute;
+            left: 0;
+            top: 10px;
+            width: 36px;
+            height: 36px;
+            line-height: 36px;
+            text-align: center;
+            font-weight: 700;
+            color: var(--escuro);
+            background-color: var(--amarelo);
+            border-radius: 50%;
+        }
+
+        /* Quiz */
+        .quiz { padding: 24px; border-radius: 14px; background-color: var(--escuro); color: var(--branco); }
+        .quiz h2 { color: var(--branco); border-bottom-color: var(--vermelho); margin-top: 0; }
+        .quiz .pergunta { font-size: 1.15rem; font-weight: 700; margin: 8px 0 12px; }
+        .quiz .opcoes { display: grid; gap: 10px; }
+
+        .quiz .opcoes button {
+            padding: 12px 16px;
+            text-align: left;
+            font: inherit;
+            color: var(--branco);
+            background-color: rgba(255, 255, 255, 0.1);
+            border: 2px solid rgba(255, 255, 255, 0.35);
+            border-radius: 10px;
+            cursor: pointer;
+        }
+
+        .quiz .opcoes button:hover:not(:disabled) { background-color: rgba(255, 255, 255, 0.2); }
+        .quiz .opcoes button.certa { background-color: #1F7A3B; border-color: #7EE29B; }
+        .quiz .opcoes button.errada { background-color: #A81C2E; border-color: #FF9AA8; }
+        .quiz .opcoes button:disabled { cursor: default; }
+        .quiz .status { margin-top: 14px; min-height: 1.7em; }
+
+        .quiz .proxima {
+            margin-top: 8px;
+            padding: 10px 22px;
+            font: inherit;
+            font-weight: 700;
+            color: var(--escuro);
+            background-color: var(--amarelo);
+            border: none;
+            border-radius: 8px;
+            cursor: pointer;
+        }
+
+        blockquote {
+            margin: 0;
+            padding: 16px 24px;
+            border-left: 6px solid var(--vermelho);
+            background-color: var(--fundo);
+            font-family: var(--fonte-titulo);
+            font-size: 1.2rem;
+            color: var(--escuro);
+        }
+
+        /* Clube */
+        .clube { background-color: var(--azul); color: var(--branco); padding: 28px; border-radius: 12px; text-align: center; }
+        .clube h2 { color: var(--branco); border-bottom: none; margin-top: 0; }
+        .clube form { display: flex; flex-wrap: wrap; justify-content: center; gap: 8px; }
+        .clube input { flex: 1 1 220px; max-width: 340px; padding: 10px 14px; font: inherit; border: 2px solid transparent; border-radius: 8px; }
+
+        .clube button {
+            padding: 10px 22px;
+            font: inherit;
+            font-weight: 700;
+            color: var(--escuro);
+            background-color: var(--amarelo);
+            border: none;
+            border-radius: 8px;
+            cursor: pointer;
+        }
+
+        footer { max-width: 960px; margin: 0 auto; padding: 24px; text-align: center; font-size: 0.9rem; color: var(--branco); background-color: var(--escuro); }
+        footer p { margin: 4px 0; }
+        footer a { color: var(--amarelo); }
+
+        @media (max-width: 600px) {
+            header h1 { font-size: 2rem; }
+        }
+
+        @media (prefers-reduced-motion: reduce) {
+            html { scroll-behavior: auto; }
+            nav a { transition: none; }
+        }
+    </style>
+</head>
+<body>
+
+    <header>
+        <!-- Logo minimalista própria: esfera dividida ao meio com um botão central -->
+        <svg class="logo" width="64" height="64" viewBox="0 0 64 64" role="img" aria-label="Logo do Pokédiário: esfera dividida ao meio com um botão central">
+            <circle cx="32" cy="32" r="28" fill="none" stroke="#FFFFFF" stroke-width="4"/>
+            <path d="M4 32 H24 M40 32 H60" stroke="#FFFFFF" stroke-width="4" stroke-linecap="round"/>
+            <circle cx="32" cy="32" r="8" fill="#FFCB05" stroke="#FFFFFF" stroke-width="4"/>
+        </svg>
+        <h1>Pokédiário</h1>
+        <p>O blog de um treinador: tipos, times e curiosidades</p>
+
+        <nav aria-label="Menu principal">
+            <a href="#sobre">Sobre</a>
+            <a href="#artigos">Artigos</a>
+            <a href="#tipos">Tabela de tipos</a>
+            <a href="#calculadora">Calculadora</a>
+            <a href="#historia">História</a>
+            <a href="#glossario">Glossário</a>
+            <a href="#quiz">Quiz</a>
+        </nav>
+    </header>
+
+    <main>
+
+        <section id="sobre">
+            <h2>Bem-vindo, treinador!</h2>
+            <p>
+                Este blog é um diário de fã. Aqui você encontra guias para iniciantes,
+                a tabela completa de vantagens e fraquezas entre os tipos, uma calculadora
+                de dano, curiosidades sobre a franquia e até um quiz para testar o que aprendeu.
+            </p>
+
+
+            <div class="numeros">
+                <div><strong>18</strong><span>tipos diferentes</span></div>
+                <div><strong>1996</strong><span>ano do primeiro jogo</span></div>
+                <div><strong>×2</strong><span>dano super eficaz</span></div>
+                <div><strong>6</strong><span>Pokémon por time</span></div>
+            </div>
+        </section>
+
+        <section>
+            <div class="destaque">
+                <span class="etiqueta">Em destaque</span>
+                <h3>Como funciona a vantagem de tipos</h3>
+                <p>
+                    Cada golpe tem um tipo. Contra alguns tipos ele causa o dobro do dano
+                    (super eficaz), contra outros causa metade (pouco eficaz) e contra
+                    uns poucos não causa nenhum dano. Veja a tabela completa logo abaixo
+                    ou teste combinações na calculadora.
+                </p>
+                <a href="#tipos">Ir para a tabela de tipos</a>
+            </div>
+        </section>
+
+        <section id="artigos">
+            <h2>Últimos artigos</h2>
+
+            <div class="artigos">
+                <article>
+                    <span class="etiqueta">Iniciantes</span>
+                    <h3>Qual inicial escolher na sua primeira aventura?</h3>
+                    <p>Prós e contras dos três tipos iniciais clássicos: Planta, Fogo e Água.</p>
+                    <time datetime="2026-11-10">10 de novembro de 2026</time>
+                </article>
+
+                <article>
+                    <span class="etiqueta">Estratégia</span>
+                    <h3>Montando um time equilibrado de seis</h3>
+                    <p>Como cobrir fraquezas, variar os tipos e ter um plano para cada adversário.</p>
+                    <time datetime="2026-11-06">6 de novembro de 2026</time>
+                </article>
+
+                <article>
+                    <span class="etiqueta">Curiosidades</span>
+                    <h3>Como tudo começou em 1996</h3>
+                    <p>Os primeiros jogos chegaram ao Japão para o Game Boy e deram início a uma das maiores franquias do mundo.</p>
+                    <time datetime="2026-11-01">1 de novembro de 2026</time>
+                </article>
+            </div>
+        </section>
+
+        <section id="tipos">
+            <h2>Tabela de tipos: forte e fraco contra quem?</h2>
+            <p>
+                Cada cartão mostra contra quais tipos os golpes daquele tipo são
+                <strong>fortes</strong> (dano ×2), contra quais são <strong>fracos</strong>
+                (dano ×0,5 ou nenhum dano) e de quais tipos o próprio Pokémon
+                <strong>recebe mais dano</strong>.
+            </p>
+            <div class="grade-tipos" id="grade-tipos"></div>
+        </section>
+
+        <section id="calculadora">
+            <h2>Calculadora de vantagem</h2>
+            <p>Escolha o tipo do golpe e o tipo (ou os dois tipos) de quem vai receber o ataque.</p>
+
+            <div class="calculadora">
+                <div class="campos">
+                    <div>
+                        <label for="sel-ataque">Tipo do golpe</label>
+                        <select id="sel-ataque"></select>
+                    </div>
+                    <div>
+                        <label for="sel-def1">Tipo do alvo</label>
+                        <select id="sel-def1"></select>
+                    </div>
+                    <div>
+                        <label for="sel-def2">Segundo tipo do alvo (opcional)</label>
+                        <select id="sel-def2"></select>
+                    </div>
+                </div>
+
+                <div class="resultado" id="resultado" aria-live="polite"></div>
+            </div>
+        </section>
+
+        <section id="historia">
+            <h2>Linha do tempo da franquia</h2>
+
+            <ul class="linha-tempo">
+                <li><strong>1996</strong><br>Lançamento dos primeiros jogos no Japão, para o Game Boy.</li>
+                <li><strong>1997</strong><br>Estreia do anime na televisão japonesa.</li>
+                <li><strong>1998</strong><br>Os jogos chegam ao ocidente e a febre se espalha pelo mundo.</li>
+                <li><strong>1999</strong><br>Chegada da segunda geração de jogos no Japão, com novos Pokémon e dois novos tipos.</li>
+                <li><strong>2016</strong><br>Lançamento do Pokémon GO para celulares, levando treinadores para as ruas.</li>
+            </ul>
+        </section>
+
+        <section id="glossario">
+            <h2>Glossário do treinador</h2>
+
+            <dl class="glossario">
+                <div><dt>Pokédex</dt><dd>Enciclopédia que registra os Pokémon que você já viu e capturou.</dd></div>
+                <div><dt>Evolução</dt><dd>Transformação de um Pokémon em uma forma mais forte, por nível, item ou outras condições.</dd></div>
+                <div><dt>Super eficaz</dt><dd>Golpe que causa o dobro de dano porque o tipo do alvo é fraco contra ele.</dd></div>
+                <div><dt>Pouco eficaz</dt><dd>Golpe que causa metade do dano por causa da resistência do alvo.</dd></div>
+                <div><dt>Líder de ginásio</dt><dd>Treinador especialista em um tipo que você enfrenta para ganhar insígnias.</dd></div>
+                <div><dt>Shiny</dt><dd>Variação rara de cor de um Pokémon, muito procurada por colecionadores.</dd></div>
+            </dl>
+        </section>
+
+        <section id="dicas">
+            <h2>5 dicas para treinadores iniciantes</h2>
+
+            <ol class="dicas">
+                <li>Capture Pokémon de tipos variados para ter opções em qualquer batalha.</li>
+                <li>Não treine só um Pokémon: um time inteiro nivelado é bem mais seguro.</li>
+                <li>Consulte a tabela de tipos antes de escolher o golpe de cada turno.</li>
+                <li>Guarde itens de cura antes de enfrentar líderes de ginásio.</li>
+                <li>Explore tudo. Os melhores segredos ficam fora do caminho principal.</li>
+            </ol>
+        </section>
+
+        <section id="quiz">
+            <div class="quiz">
+                <h2>Quiz: você é um mestre dos tipos?</h2>
+                <div id="quiz-area"></div>
+            </div>
+        </section>
+
+        <section>
+            <blockquote>
+                Todo grande treinador já perdeu uma batalha. O que importa é o que você aprende com ela.
+            </blockquote>
+        </section>
+
+        <section id="clube" class="clube">
+            <h2>Entre para o clube de treinadores</h2>
+            <p>Receba novos guias e curiosidades por e-mail.</p>
+            <form onsubmit="event.preventDefault(); alert('Bem-vindo ao clube, treinador!');">
+                <input type="email" placeholder="seuemail@exemplo.com" aria-label="Seu e-mail" required>
+                <button type="submit">Quero entrar</button>
+            </form>
+        </section>
+
+    </main>
+
+    <footer>
+        <p>&copy; 2026 Pokédiário. Feito com HTML e CSS durante as minhas aulas do Alura.</p>
+        <p>Blog de fã, sem fins comerciais. Pokémon é marca da Nintendo, Creatures e GAME FREAK.</p>
+        <p><a href="#sobre">Voltar ao topo</a></p>
+    </footer>
+
+    <script>
+        /* c = cor | f = golpes fortes contra (x2) | n = pouco eficaz (x0,5) | z = sem efeito (x0) */
+        const tipos = {
+            "Normal":    { c: "#C9C9B0", f: [], n: ["Pedra", "Aço"], z: ["Fantasma"] },
+            "Fogo":      { c: "#F5A25D", f: ["Planta", "Gelo", "Inseto", "Aço"], n: ["Fogo", "Água", "Pedra", "Dragão"], z: [] },
+            "Água":      { c: "#7FB2F0", f: ["Fogo", "Terrestre", "Pedra"], n: ["Água", "Planta", "Dragão"], z: [] },
+            "Planta":    { c: "#8FD16A", f: ["Água", "Terrestre", "Pedra"], n: ["Fogo", "Planta", "Venenoso", "Voador", "Inseto", "Dragão", "Aço"], z: [] },
+            "Elétrico":  { c: "#F7D84A", f: ["Água", "Voador"], n: ["Elétrico", "Planta", "Dragão"], z: ["Terrestre"] },
+            "Gelo":      { c: "#A8E4E0", f: ["Planta", "Terrestre", "Voador", "Dragão"], n: ["Fogo", "Água", "Gelo", "Aço"], z: [] },
+            "Lutador":   { c: "#D96A5E", f: ["Normal", "Gelo", "Pedra", "Sombrio", "Aço"], n: ["Venenoso", "Voador", "Psíquico", "Inseto", "Fada"], z: ["Fantasma"] },
+            "Venenoso":  { c: "#C27ACF", f: ["Planta", "Fada"], n: ["Venenoso", "Terrestre", "Pedra", "Fantasma"], z: ["Aço"] },
+            "Terrestre": { c: "#DDBF76", f: ["Fogo", "Elétrico", "Venenoso", "Pedra", "Aço"], n: ["Planta", "Inseto"], z: ["Voador"] },
+            "Voador":    { c: "#B7A6F0", f: ["Planta", "Lutador", "Inseto"], n: ["Elétrico", "Pedra", "Aço"], z: [] },
+            "Psíquico":  { c: "#F58BAA", f: ["Lutador", "Venenoso"], n: ["Psíquico", "Aço"], z: ["Sombrio"] },
+            "Inseto":    { c: "#C2D14A", f: ["Planta", "Psíquico", "Sombrio"], n: ["Fogo", "Lutador", "Venenoso", "Voador", "Fantasma", "Aço", "Fada"], z: [] },
+            "Pedra":     { c: "#C9B76A", f: ["Fogo", "Gelo", "Voador", "Inseto"], n: ["Lutador", "Terrestre", "Aço"], z: [] },
+            "Fantasma":  { c: "#9C88C8", f: ["Psíquico", "Fantasma"], n: ["Sombrio"], z: ["Normal"] },
+            "Dragão":    { c: "#A48BFA", f: ["Dragão"], n: ["Aço"], z: ["Fada"] },
+            "Sombrio":   { c: "#A89385", f: ["Psíquico", "Fantasma"], n: ["Lutador", "Sombrio", "Fada"], z: [] },
+            "Aço":       { c: "#B8B8D0", f: ["Gelo", "Pedra", "Fada"], n: ["Fogo", "Água", "Elétrico", "Aço"], z: [] },
+            "Fada":      { c: "#F2A8D6", f: ["Lutador", "Dragão", "Sombrio"], n: ["Fogo", "Venenoso", "Aço"], z: [] }
+        };
+
+        const nomes = Object.keys(tipos);
+
+        function chips(lista, sufixo) {
+            if (lista.length === 0) {
+                return '<span class="vazio">Nenhum</span>';
+            }
+            return lista.map(function (t) {
+                return '<span class="chip" style="--c:' + tipos[t].c + '">' + t + (sufixo || "") + '</span>';
+            }).join("");
+        }
+
+        /* ---------- Cartões da tabela de tipos ---------- */
+        const grade = document.getElementById("grade-tipos");
+
+        nomes.forEach(function (nome) {
+            const d = tipos[nome];
+            const fracoA = nomes.filter(function (outro) { return tipos[outro].f.includes(nome); });
+
+            const card = document.createElement("div");
+            card.className = "tipo-card";
+            card.style.setProperty("--c", d.c);
+            card.innerHTML =
+                '<h3>' + nome + '</h3>' +
+                '<div class="corpo">' +
+                    '<h4>Golpes fortes contra (×2)</h4>' + chips(d.f) +
+                    '<h4>Golpes fracos contra (×0,5)</h4>' + chips(d.n) +
+                    '<h4>Sem efeito contra (×0)</h4>' + chips(d.z) +
+                    '<h4>Pokémon deste tipo sofre mais de</h4>' + chips(fracoA) +
+                '</div>';
+            grade.appendChild(card);
+        });
+
+        /* ---------- Calculadora ---------- */
+        const selAtaque = document.getElementById("sel-ataque");
+        const selDef1 = document.getElementById("sel-def1");
+        const selDef2 = document.getElementById("sel-def2");
+        const resultado = document.getElementById("resultado");
+
+        function opcoes(select, comVazio) {
+            if (comVazio) {
+                select.innerHTML = '<option value="">Nenhum</option>';
+            }
+            nomes.forEach(function (n) {
+                select.innerHTML += '<option value="' + n + '">' + n + '</option>';
+            });
+        }
+
+        opcoes(selAtaque, false);
+        opcoes(selDef1, false);
+        opcoes(selDef2, true);
+        selDef1.value = "Planta";
+
+        function multiplicador(atq, def) {
+            const d = tipos[atq];
+            if (d.z.includes(def)) { return 0; }
+            if (d.f.includes(def)) { return 2; }
+            if (d.n.includes(def)) { return 0.5; }
+            return 1;
+        }
+
+        function calcular() {
+            let total = multiplicador(selAtaque.value, selDef1.value);
+            if (selDef2.value !== "") {
+                total = total * multiplicador(selAtaque.value, selDef2.value);
+            }
+
+            let classe = "";
+            let texto = "";
+
+            if (total === 0) { classe = "zero"; texto = "Sem efeito! O alvo não sofre dano."; }
+            else if (total >= 4) { classe = "forte"; texto = "Extremamente eficaz! Dano quadruplicado."; }
+            else if (total > 1) { classe = "forte"; texto = "Super eficaz! O alvo sofre o dobro de dano."; }
+            else if (total === 1) { classe = ""; texto = "Dano normal."; }
+            else if (total <= 0.25) { classe = "fraco"; texto = "Muito pouco eficaz! Só um quarto do dano."; }
+            else { classe = "fraco"; texto = "Pouco eficaz. O alvo sofre metade do dano."; }
+
+            resultado.className = "resultado " + classe;
+            resultado.innerHTML = '<span class="mult">×' + String(total).replace(".", ",") + '</span>' + texto;
+        }
+
+        [selAtaque, selDef1, selDef2].forEach(function (s) { s.addEventListener("change", calcular); });
+        calcular();
+
+        /* ---------- Quiz ---------- */
+        const perguntas = [
+            { p: "Golpes do tipo Fogo são super eficazes contra qual destes tipos?", o: ["Água", "Planta", "Pedra"], r: 1 },
+            { p: "Qual tipo não sofre nenhum dano de golpes do tipo Normal?", o: ["Aço", "Sombrio", "Fantasma"], r: 2 },
+            { p: "O que acontece quando um golpe Elétrico acerta um Pokémon do tipo Terrestre?", o: ["Sem efeito", "Super eficaz", "Pouco eficaz"], r: 0 },
+            { p: "Um Pokémon do tipo Água é fraco contra golpes de qual tipo?", o: ["Fogo", "Elétrico", "Terrestre"], r: 1 },
+            { p: "Em que ano os primeiros jogos foram lançados no Japão?", o: ["1996", "1998", "2001"], r: 0 }
+        ];
+
+        const area = document.getElementById("quiz-area");
+        let atual = 0;
+        let pontos = 0;
+
+        function mostrarPergunta() {
+            if (atual >= perguntas.length) {
+                let msg = "Continue treinando!";
+                if (pontos === perguntas.length) { msg = "Perfeito! Você é um mestre dos tipos!"; }
+                else if (pontos >= 3) { msg = "Muito bem! Você já é um ótimo treinador."; }
+
+                area.innerHTML = '<p class="pergunta">Você acertou ' + pontos + ' de ' + perguntas.length + '.</p><p>' + msg + '</p>' +
+                    '<button class="proxima" id="reiniciar">Jogar de novo</button>';
+                document.getElementById("reiniciar").addEventListener("click", function () {
+                    atual = 0;
+                    pontos = 0;
+                    mostrarPergunta();
+                });
+                return;
+            }
+
+            const q = perguntas[atual];
+            area.innerHTML = '<p>Pergunta ' + (atual + 1) + ' de ' + perguntas.length + '</p>' +
+                '<p class="pergunta">' + q.p + '</p><div class="opcoes" id="opcoes"></div>' +
+                '<p class="status" id="status" aria-live="polite"></p>';
+
+            const caixa = document.getElementById("opcoes");
+
+            q.o.forEach(function (texto, i) {
+                const b = document.createElement("button");
+                b.type = "button";
+                b.textContent = texto;
+                b.addEventListener("click", function () { responder(i); });
+                caixa.appendChild(b);
+            });
+        }
+
+        function responder(escolha) {
+            const q = perguntas[atual];
+            const botoes = document.querySelectorAll("#opcoes button");
+            botoes.forEach(function (b, i) {
+                b.disabled = true;
+                if (i === q.r) { b.classList.add("certa"); }
+                else if (i === escolha) { b.classList.add("errada"); }
+            });
+
+            if (escolha === q.r) {
+                pontos++;
+                document.getElementById("status").textContent = "Correto!";
+            } else {
+                document.getElementById("status").textContent = "Não foi dessa vez. A resposta certa é: " + q.o[q.r] + ".";
+            }
+
+            const prox = document.createElement("button");
+            prox.type = "button";
+            prox.className = "proxima";
+            prox.textContent = atual === perguntas.length - 1 ? "Ver resultado" : "Próxima pergunta";
+            prox.addEventListener("click", function () { atual++; mostrarPergunta(); });
+            area.appendChild(prox);
+        }
+
+        mostrarPergunta();
+    </script>
+
+</body>
+</html>

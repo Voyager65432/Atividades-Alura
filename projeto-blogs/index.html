@@ -1,0 +1,437 @@
+<!DOCTYPE html>
+<html lang="pt-BR">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <meta name="description" content="Blog sobre tecnologia e educação: tutoriais, dicas e reflexões para quem está aprendendo a programar.">
+    <title>Bit & Giz | Tecnologia e educação</title>
+
+    <style>
+        /* ---------- Variáveis de cor e fonte ---------- */
+        :root {
+            --azul: #183C63;
+            --azul-escuro: #102A47;
+            --azul-claro: #E3ECF6;
+            --papel: #F4F7FB;
+            --giz: #F2B134;
+            --texto: #1F2933;
+            --texto-suave: #52606D;
+            --borda: #C9D6E4;
+            --fonte-titulo: Georgia, "Times New Roman", serif;
+            --fonte-texto: "Segoe UI", Roboto, Helvetica, Arial, sans-serif;
+        }
+
+        * {
+            box-sizing: border-box;
+        }
+
+        html {
+            scroll-behavior: smooth;
+        }
+
+        body {
+            margin: 0;
+            font-family: var(--fonte-texto);
+            font-size: 1.05rem;
+            line-height: 1.7;
+            color: var(--texto);
+            background-color: var(--papel);
+        }
+
+        h1, h2, h3 {
+            font-family: var(--fonte-titulo);
+            line-height: 1.25;
+            color: var(--azul);
+        }
+
+        a {
+            color: var(--azul);
+        }
+
+        a:focus-visible,
+        button:focus-visible,
+        input:focus-visible {
+            outline: 3px solid var(--giz);
+            outline-offset: 3px;
+        }
+
+        /* ---------- Cabeçalho (conceitos da aula: max-width, margin, padding, border) ---------- */
+        header {
+            background-color: var(--azul);
+            color: #FFFFFF;
+            text-align: center;
+            max-width: 800px;
+            margin: 0 auto;
+            padding: 32px 24px 0;
+            border-bottom: 6px solid var(--giz);
+
+            /* Borda de teste da aula: descomente para visualizar os espaços
+               border: 5px solid #cf1010; */
+        }
+
+        header .logo {
+            display: block;
+            margin: 0 auto;
+        }
+
+        header h1 {
+            margin: 12px 0 4px;
+            font-size: 2.4rem;
+            color: #FFFFFF;
+        }
+
+        header p {
+            margin: 0 0 24px;
+            color: var(--azul-claro);
+        }
+
+        nav {
+            display: flex;
+            justify-content: center;
+            flex-wrap: wrap;
+            gap: 8px 24px;
+            padding: 14px 0;
+            border-top: 1px solid rgba(255, 255, 255, 0.2);
+        }
+
+        nav a {
+            color: #FFFFFF;
+            text-decoration: none;
+            padding: 4px 2px;
+            border-bottom: 2px solid transparent;
+            transition: border-color 0.2s;
+        }
+
+        nav a:hover {
+            border-bottom-color: var(--giz);
+        }
+
+        /* ---------- Conteúdo principal ---------- */
+        main {
+            max-width: 800px;
+            margin: 0 auto;
+            padding: 24px;
+            background-color: #FFFFFF;
+        }
+
+        section {
+            margin-bottom: 48px;
+        }
+
+        section > h2 {
+            font-size: 1.6rem;
+            margin-bottom: 8px;
+            padding-bottom: 8px;
+            border-bottom: 2px solid var(--azul-claro);
+        }
+
+        /* Imagem da aula: 80 x 80 px */
+        img {
+            width: 80px;
+            height: 80px;
+        }
+
+        .boas-vindas {
+            display: flex;
+            align-items: center;
+            gap: 24px;
+        }
+
+        .boas-vindas p {
+            margin: 0;
+        }
+
+        /* Destaque */
+        .destaque {
+            background-color: var(--azul);
+            color: #FFFFFF;
+            padding: 28px;
+            border-radius: 12px;
+            border-left: 8px solid var(--giz);
+        }
+
+        .destaque h3 {
+            margin-top: 0;
+            font-size: 1.5rem;
+            color: #FFFFFF;
+        }
+
+        .destaque a {
+            color: var(--giz);
+            font-weight: 600;
+        }
+
+        .etiqueta {
+            display: inline-block;
+            background-color: var(--azul-claro);
+            color: var(--azul);
+            font-size: 0.85rem;
+            font-weight: 600;
+            padding: 2px 12px;
+            border-radius: 999px;
+        }
+
+        .destaque .etiqueta {
+            background-color: var(--giz);
+            color: var(--azul-escuro);
+        }
+
+        /* Lista de artigos */
+        article {
+            padding: 20px 0;
+            border-bottom: 1px solid var(--borda);
+        }
+
+        article:last-child {
+            border-bottom: none;
+        }
+
+        article h3 {
+            margin: 8px 0 4px;
+            font-size: 1.25rem;
+        }
+
+        article p {
+            margin: 0;
+            color: var(--texto-suave);
+        }
+
+        article time {
+            font-size: 0.9rem;
+            color: var(--texto-suave);
+            margin-left: 8px;
+        }
+
+        /* Os três conceitos de espaçamento */
+        .conceitos {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(200px, 1fr));
+            gap: 16px;
+        }
+
+        .conceitos div {
+            padding: 16px;
+            border: 2px solid var(--borda);
+            border-radius: 8px;
+            background-color: var(--papel);
+        }
+
+        .conceitos h3 {
+            margin: 0 0 4px;
+            font-size: 1.1rem;
+        }
+
+        .conceitos p {
+            margin: 0;
+            font-size: 0.95rem;
+        }
+
+        .conceitos code {
+            background-color: var(--azul-claro);
+            padding: 1px 6px;
+            border-radius: 4px;
+        }
+
+        /* Citação */
+        blockquote {
+            margin: 0;
+            padding: 16px 24px;
+            border-left: 6px solid var(--giz);
+            background-color: var(--azul-claro);
+            font-family: var(--fonte-titulo);
+            font-size: 1.2rem;
+            color: var(--azul-escuro);
+        }
+
+        /* Newsletter */
+        .newsletter {
+            background-color: var(--azul-claro);
+            padding: 28px;
+            border-radius: 12px;
+            text-align: center;
+        }
+
+        .newsletter h2 {
+            border-bottom: none;
+            margin-top: 0;
+        }
+
+        .newsletter form {
+            display: flex;
+            flex-wrap: wrap;
+            justify-content: center;
+            gap: 8px;
+        }
+
+        .newsletter input {
+            flex: 1 1 220px;
+            max-width: 340px;
+            padding: 10px 14px;
+            font: inherit;
+            border: 2px solid var(--borda);
+            border-radius: 8px;
+        }
+
+        .newsletter button {
+            padding: 10px 22px;
+            font: inherit;
+            font-weight: 600;
+            color: var(--azul-escuro);
+            background-color: var(--giz);
+            border: none;
+            border-radius: 8px;
+            cursor: pointer;
+        }
+
+        .newsletter button:hover {
+            background-color: #E09F20;
+        }
+
+        /* ---------- Rodapé ---------- */
+        footer {
+            max-width: 800px;
+            margin: 0 auto;
+            padding: 24px;
+            text-align: center;
+            font-size: 0.9rem;
+            color: #FFFFFF;
+            background-color: var(--azul-escuro);
+        }
+
+        footer p {
+            margin: 4px 0;
+        }
+
+        /* ---------- Telas pequenas ---------- */
+        @media (max-width: 600px) {
+            header h1 {
+                font-size: 1.9rem;
+            }
+
+            .boas-vindas {
+                flex-direction: column;
+                text-align: center;
+            }
+        }
+
+        @media (prefers-reduced-motion: reduce) {
+            html {
+                scroll-behavior: auto;
+            }
+
+            nav a {
+                transition: none;
+            }
+        }
+    </style>
+</head>
+<body>
+
+    <header>
+        <!-- Logo minimalista: um livro aberto (educação) com um quadrado amarelo (o "bit") -->
+        <svg class="logo" width="64" height="64" viewBox="0 0 64 64" role="img" aria-label="Logo do Bit & Giz: livro aberto com um quadrado amarelo acima">
+            <rect x="26" y="4" width="12" height="12" rx="2" fill="#F2B134"/>
+            <path d="M8 26 C18 22 26 24 32 30 C38 24 46 22 56 26 V50 C46 46 38 48 32 54 C26 48 18 46 8 50 Z"
+                  fill="none" stroke="#FFFFFF" stroke-width="3" stroke-linejoin="round"/>
+            <path d="M32 30 V54" stroke="#FFFFFF" stroke-width="3" stroke-linecap="round"/>
+        </svg>
+        <h1>Bit & Giz</h1>
+        <p>Tecnologia e educação para quem está começando</p>
+
+        <nav aria-label="Menu principal">
+            <a href="#sobre">Sobre</a>
+            <a href="#artigos">Artigos</a>
+            <a href="#conceitos">Aprenda CSS</a>
+            <a href="#newsletter">Newsletter</a>
+        </nav>
+    </header>
+
+    <main>
+
+        <section id="sobre" class="boas-vindas">
+            <p>
+                Olá! Este blog nasceu durante meus estudos de HTML e CSS. Aqui eu
+                registro o que aprendo, explico com palavras simples e mostro os
+                erros que cometi no caminho, porque a gente aprende muito com eles.
+            </p>
+        </section>
+
+        <section>
+            <div class="destaque">
+                <span class="etiqueta">Em destaque</span>
+                <h3>Entendendo margin, padding e border</h3>
+                <p>
+                    Todo elemento da página é uma caixa. Descubra como o navegador
+                    organiza o conteúdo, o espaço interno, a borda e o espaço externo
+                    usando a ferramenta Inspecionar.
+                </p>
+                <a href="#conceitos">Ver o resumo logo abaixo</a>
+            </div>
+        </section>
+
+        <section id="artigos">
+            <h2>Últimos artigos</h2>
+
+            <article>
+                <span class="etiqueta">HTML</span><time datetime="2026-11-03">3 de novembro de 2026</time>
+                <h3>Como inserir imagens com a tag img</h3>
+                <p>Veja para que servem os atributos src e alt e por que o texto alternativo é importante para a acessibilidade.</p>
+            </article>
+
+            <article>
+                <span class="etiqueta">CSS</span><time datetime="2026-10-28">28 de outubro de 2026</time>
+                <h3>Centralizando o conteúdo com max-width e margin</h3>
+                <p>Dois comandos simples que deixam a página organizada em telas grandes e pequenas.</p>
+            </article>
+
+            <article>
+                <span class="etiqueta">Ferramentas</span><time datetime="2026-10-20">20 de outubro de 2026</time>
+                <h3>5 atalhos do VS Code que economizam tempo</h3>
+                <p>De F2 para renomear arquivos até Tab para completar tags: pequenos hábitos que fazem diferença.</p>
+            </article>
+        </section>
+
+        <section id="conceitos">
+            <h2>Resumo: os três espaços de uma caixa</h2>
+
+            <div class="conceitos">
+                <div>
+                    <h3>margin</h3>
+                    <p>Espaçamento <strong>externo</strong>, entre o elemento e os vizinhos. Ex.: <code>margin: 0 auto;</code></p>
+                </div>
+                <div>
+                    <h3>padding</h3>
+                    <p>Espaçamento <strong>interno</strong>, entre a borda e o conteúdo. Ex.: <code>padding: 16px;</code></p>
+                </div>
+                <div>
+                    <h3>border</h3>
+                    <p>O <strong>limite visual</strong> do elemento. Ex.: <code>border: 5px solid #cf1010;</code></p>
+                </div>
+            </div>
+        </section>
+
+        <section>
+            <blockquote>
+                Errar o nome do arquivo da imagem é ótimo para testar o atributo alt.
+                Todo bug é uma chance de aprender.
+            </blockquote>
+        </section>
+
+        <section id="newsletter" class="newsletter">
+            <h2>Receba novidades</h2>
+            <p>Um e-mail por semana com dicas de programação e novos artigos.</p>
+            <form onsubmit="event.preventDefault(); alert('Obrigado por se inscrever!');">
+                <input type="email" placeholder="seuemail@exemplo.com" aria-label="Seu e-mail" required>
+                <button type="submit">Quero receber</button>
+            </form>
+        </section>
+
+    </main>
+
+    <footer>
+        <p>&copy; 2026 Bit & Giz. Feito com HTML e CSS durante as aulas do Alura.</p>
+        <p><a href="#sobre" style="color: #F2B134;">Voltar ao topo</a></p>
+    </footer>
+
+</body>
+</html>
